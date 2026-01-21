@@ -10,6 +10,7 @@ module.exports = {
 	"CreatedNeedsConfirmation": 9, // The offer hasn't been sent yet and is awaiting further confirmation
 	"CanceledBySecondFactor": 10, // Either party canceled the offer via email/mobile confirmation
 	"InEscrow": 11,          // The trade has been placed on hold
+	"Reverted": 12,          // Trade was reverted by the user (Trade protection update 2025)
 
 	"1": "Invalid",
 	"2": "Active",
@@ -22,4 +23,5 @@ module.exports = {
 	"9": "CreatedNeedsConfirmation",
 	"10": "CanceledBySecondFactor",
 	"11": "InEscrow",
+	"12": "Reverted",
 };

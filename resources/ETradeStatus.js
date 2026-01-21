@@ -11,6 +11,7 @@ module.exports = {
 	"RollbackAbandoned": 9,              // We tried to roll back the trade, but some failure didn't go away and we gave up
 	"InEscrow": 10,                      // Trade is in escrow
 	"EscrowRollback": 11,                // A trade in escrow was rolled back
+	"Reverted": 12,                      // Trade was reverted by the user (Trade protection update 2025)
 
 	"0": "Init",
 	"1": "PreCommitted",
@@ -23,5 +24,6 @@ module.exports = {
 	"8": "RollbackFailed",
 	"9": "RollbackAbandoned",
 	"10": "InEscrow",
-	"11": "EscrowRollback"
+	"11": "EscrowRollback",
+	"12": "Reverted",
 };
