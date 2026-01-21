@@ -26,7 +26,6 @@
 	},
 	"dependencies": {
 		"@doctormckay/stdlib": "^2.10.0",
-		"fast-equals": "^6.0.0",
 		"languages": "^0.1.3",
 		"steamcommunity": "github:bekesibeni/node-steamcommunity",
 		"steamid": "^2.1.0"
