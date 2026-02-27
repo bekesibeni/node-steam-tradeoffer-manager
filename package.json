@@ -1,28 +1,43 @@
 {
 	"name": "steam-tradeoffer-manager",
-	"version": "3.0.1",
+	"version": "3.1.0",
 	"description": "A simple trade offers API for Steam",
-	"main": "./lib/index.js",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"files": [
+		"dist",
+		"src"
+	],
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/DoctorMcKay/node-steam-tradeoffer-manager.git"
+		"url": "https://github.com/bekesibeni/node-steam-tradeoffer-manager.git"
 	},
 	"keywords": [
 		"steam",
 		"trade",
 		"offers",
 		"tradeoffers",
-		"trading",
-		"trade"
+		"trading"
 	],
 	"author": "Alex Corn <mckay@doctormckay.com>",
+	"contributors": [
+		{
+			"name": "bekesibeni",
+			"url": "https://github.com/bekesibeni"
+		}
+	],
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/DoctorMcKay/node-steam-tradeoffer-manager/issues"
+		"url": "https://github.com/bekesibeni/node-steam-tradeoffer-manager/issues"
 	},
-	"homepage": "https://github.com/DoctorMcKay/node-steam-tradeoffer-manager",
+	"homepage": "https://github.com/bekesibeni/node-steam-tradeoffer-manager",
 	"scripts": {
-		"update-resources": "node scripts/update-resources.js"
+		"build": "tsc",
+		"build:watch": "tsc --watch",
+		"prepublishOnly": "tsc",
+		"example:offloader": "tsx examples/offloader.ts",
+		"example:storehouse-steam": "tsx examples/storehouse-steam.ts",
+		"example:storehouse-community": "tsx examples/storehouse-steamcommunity.ts"
 	},
 	"dependencies": {
 		"@doctormckay/stdlib": "^2.10.0",
@@ -31,9 +46,19 @@
 		"steamid": "^2.1.0"
 	},
 	"devDependencies": {
-		"steam-totp": "^2.1.2"
+		"@types/node": "^25.3.2",
+		"steam-totp": "^2.1.2",
+		"steam-user": "^5.3.0",
+		"tsx": "^4.21.0",
+		"typescript": "^5.9.3"
 	},
 	"engines": {
 		"node": ">=20.0.0"
+	},
+	"pnpm": {
+		"onlyBuiltDependencies": [
+			"esbuild",
+			"protobufjs"
+		]
 	}
 }
