@@ -31,3 +31,7 @@ export type {
 	SimpleCallback,
 	Callback,
 } from './types';
+
+// Default export for CJS `require('steam-tradeoffer-manager')` compatibility
+import { TradeOfferManager } from './TradeOfferManager';
+export default TradeOfferManager;

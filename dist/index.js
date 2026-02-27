@@ -23,4 +23,7 @@ var EConfirmationMethod_1 = require("./resources/EConfirmationMethod");
 Object.defineProperty(exports, "EConfirmationMethod", { enumerable: true, get: function () { return EConfirmationMethod_1.EConfirmationMethod; } });
 var ETradeStatus_1 = require("./resources/ETradeStatus");
 Object.defineProperty(exports, "ETradeStatus", { enumerable: true, get: function () { return ETradeStatus_1.ETradeStatus; } });
+// Default export for CJS `require('steam-tradeoffer-manager')` compatibility
+const TradeOfferManager_2 = require("./TradeOfferManager");
+exports.default = TradeOfferManager_2.TradeOfferManager;
 //# sourceMappingURL=index.js.map

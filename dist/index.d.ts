@@ -11,4 +11,6 @@ export { EResult } from './resources/EResult';
 export { EConfirmationMethod } from './resources/EConfirmationMethod';
 export { ETradeStatus } from './resources/ETradeStatus';
 export type { TradeOfferManagerOptions, PollData, RawTradeOffer, RawTradeItem, TradeUserDetails, EconItemTag, EconItemDescription, AssetProperties, AssetAccessory, SimpleCallback, Callback, } from './types';
+import { TradeOfferManager } from './TradeOfferManager';
+export default TradeOfferManager;
 //# sourceMappingURL=index.d.ts.map
