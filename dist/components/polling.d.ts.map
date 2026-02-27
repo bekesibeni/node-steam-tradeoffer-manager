@@ -1,0 +1,1 @@
+{"version":3,"file":"polling.d.ts","sourceRoot":"","sources":["../../src/components/polling.ts"],"names":[],"mappings":"AAUA,OAAO,QAAQ,sBAAsB,CAAC;IACrC,UAAU,iBAAiB;QAC1B,MAAM,CAAC,YAAY,CAAC,EAAE,OAAO,GAAG,IAAI,CAAC;QACrC,eAAe,CAAC,IAAI,CAAC,EAAE,MAAM,GAAG,IAAI,CAAC;KACrC;CACD"}
