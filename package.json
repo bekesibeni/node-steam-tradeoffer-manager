@@ -2,9 +2,10 @@
 	"name": "steam-tradeoffer-manager",
 	"version": "3.1.0",
 	"description": "A simple trade offers API for Steam",
-	"main": "dist/index.js",
+	"main": "index.js",
 	"types": "dist/index.d.ts",
 	"files": [
+		"index.js",
 		"dist",
 		"src"
 	],
