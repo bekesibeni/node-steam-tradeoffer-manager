@@ -144,7 +144,100 @@ export class TradeOffer {
 		contextid: number,
 		callback: (err: Error | null, items?: EconItem[], currency?: EconItem[], totalCount?: number) => void,
 	): void {
-		this.manager.getUserInventoryContents(this.partner, appid, contextid, true, callback);
+		const community = this.manager._community;
+		const partnerSteamID64 = this.partner.getSteamID64();
+		const partnerAccountID = this.partner.accountid;
+		const referer = `https://steamcommunity.com/tradeoffer/new/?partner=${partnerAccountID}` +
+			(this._token ? `&token=${this._token}` : '');
+
+		const items: EconItem[] = [];
+
+		// Steam authorizes /partnerinventory/ only after the trade-offer page has
+		// been visited in the same session, so we GET it once before fetching.
+		const primeTradePage = (done: (err: Error | null) => void): void => {
+			community.httpRequestGet(
+				{ uri: referer, checkHttpError: false },
+				(err: Error | null, response: { statusCode?: number } | undefined) => {
+					if (err) { done(err); return; }
+					if (response?.statusCode !== 200) {
+						done(new Error('Failed to load trade offer page (HTTP ' + response?.statusCode + ')'));
+						return;
+					}
+					done(null);
+				},
+			);
+		};
+
+		const fetchPage = (start?: number): void => {
+			// Pass https:// so we read the real Secure sessionid cookie set during login,
+			// not a randomly-generated insecure one.
+			const qs: Record<string, string> = {
+				sessionid: this.manager._community.getSessionID("https://steamcommunity.com"),
+				partner: partnerSteamID64,
+				appid: String(appid),
+				contextid: String(contextid),
+			};
+			if (start) qs['start'] = String(start);
+
+			community.httpRequestGet(
+				{
+					uri: 'https://steamcommunity.com/tradeoffer/new/partnerinventory/',
+					qs,
+					headers: {
+						Referer: referer,
+					},
+					json: true,
+					checkHttpError: false,
+				},
+				(err: Error | null, response: { statusCode?: number } | undefined, body: unknown) => {
+					if (err) { callback(err); return; }
+					if (response?.statusCode !== 200) {
+						const snippet = typeof body === 'string' ? body : JSON.stringify(body ?? '');
+						callback(new Error(`HTTP ${response?.statusCode} from partnerinventory — ${snippet.slice(0, 200)}`));
+						return;
+					}
+
+					const b = body as Record<string, unknown> | null;
+					if (!b || !b['success']) { callback(new Error('Malformed response')); return; }
+
+					const rgInventory = (b['rgInventory'] ?? {}) as Record<string, Record<string, unknown>>;
+					const rgDescriptions = (b['rgDescriptions'] ?? {}) as Record<string, Record<string, unknown>>;
+					const rgAssetProperties = (b['rgAssetProperties'] ?? {}) as Record<string, unknown>;
+
+					for (const key of Object.keys(rgInventory)) {
+						const item = rgInventory[key]!;
+						const descKey = `${item['classid']}_${item['instanceid'] ?? 0}`;
+						const description = rgDescriptions[descKey];
+						if (description) {
+							for (const j of Object.keys(description)) {
+								item[j] = description[j];
+							}
+						}
+
+						const assetid = (item['id'] ?? item['assetid']) as string | undefined;
+						if (assetid) {
+							item['assetProperties'] = rgAssetProperties[assetid] ?? [];
+						}
+
+						item['appid'] = appid;
+						item['contextid'] = contextid;
+
+						items.push(new EconItem(item));
+					}
+
+					if (b['more']) {
+						fetchPage(b['more_start'] as number);
+					} else {
+						callback(null, items, [], items.length);
+					}
+				},
+			);
+		};
+
+		primeTradePage((err) => {
+			if (err) { callback(err); return; }
+			fetchPage();
+		});
 	}
 
 	addMyItem(item: TradeItemInput): boolean {
