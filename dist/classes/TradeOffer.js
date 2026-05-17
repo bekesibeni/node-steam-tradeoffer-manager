@@ -631,7 +631,7 @@ class TradeOffer {
             (0, helpers_1.makeAnError)(new Error('No trade ID; unable to get trade details'), callback);
             return;
         }
-        this.manager._apiCall('GET', { iface: 'ISteamEconomy', method: 'GetTradeStatus' }, 1, { tradeid: this.tradeID }, (err, result) => {
+        this.manager._apiCall('GET', { iface: 'IEconService', method: 'GetTradeStatus' }, 1, { tradeid: this.tradeID }, (err, result) => {
             if (err) {
                 (0, helpers_1.makeAnError)(err, callback);
                 return;

@@ -671,7 +671,7 @@ export class TradeOffer {
 		if (!this.id) { makeAnError(new Error('Cannot get trade details for an unsent trade offer'), callback); return; }
 		if (!this.tradeID) { makeAnError(new Error('No trade ID; unable to get trade details'), callback); return; }
 
-		this.manager._apiCall('GET', { iface: 'ISteamEconomy', method: 'GetTradeStatus' }, 1, { tradeid: this.tradeID }, (err, result) => {
+		this.manager._apiCall('GET', { iface: 'IEconService', method: 'GetTradeStatus' }, 1, { tradeid: this.tradeID }, (err, result) => {
 			if (err) { makeAnError(err, callback); return; }
 
 			const res = result as Record<string, unknown>;
